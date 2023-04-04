@@ -12,12 +12,11 @@ const SignupScreen = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleSignup = async () => {
+        setError("")
         setIsLoading(true)
-
         if (!name || !email || !password) {
             setError("Please fill up all the provided fields")
         } else {
-
             try {
                 const { data } = await axios.post('https://missingdata.pythonanywhere.com/signup', {
                     username: name,
@@ -25,9 +24,7 @@ const SignupScreen = () => {
                     password: password,
                 }
                 )
-
                 // console.log("res", data,)
-
                 if (data?.message === "successful") {
                     Alert.alert("Congratulations, Your account has been successfully created.")
                     navigation.navigate("LogIn")
@@ -49,7 +46,7 @@ const SignupScreen = () => {
             <Image source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png" }} style={styles.logo} />
             <Text style={styles.title}>Create your account</Text>
 
-            <Text style={{ color: "red", marginRight: 60, marginBottom: 10 }}>{error}</Text>
+            <Text style={styles.errorStyle}>{error}</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
@@ -96,6 +93,7 @@ const SignupScreen = () => {
 };
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         backgroundColor: 'black',
@@ -156,6 +154,7 @@ const styles = StyleSheet.create({
         color: '#1DA1F2',
         fontSize: 16,
     },
+    errorStyle: { color: "red", marginRight: 60, marginBottom: 10 }
 });
 
 export default SignupScreen;

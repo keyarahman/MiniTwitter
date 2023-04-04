@@ -1,34 +1,71 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const LoginScreen = () => {
   const navigation = useNavigation()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleLogin = () => {
-    // Handle user login here
-  };
+  const handleLogin = async () => {
+    setError("")
+    setIsLoading(true)
+    if (!username || !password) {
+      setError("Please fill up  all the provided fields")
+    } else {
+      console.log(username, password)
+      try {
+        const { data } = await axios.post('https://missingdata.pythonanywhere.com/login', {
+          email: username,
+          password: password,
+        }
+        )
+        console.log("data", data.token)
+        if (data?.token) {
+          Alert.alert("Successfully Login")
+          navigation.navigate("Home")
+          AsyncStorage.setItem("token", JSON.stringify(data?.token))
+
+        }
+      }
+      catch (e) {
+        setError("Username or Password is incorrect!")
+        console.log(e)
+      }
+    }
+    setIsLoading(false)
+  }
+
+
 
   return (
     <View style={styles.container}>
       <Image source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png" }} style={styles.logo} />
       <Text style={styles.title}>Log in to Twitter</Text>
+      <Text style={styles.errorStyle}>{error}</Text>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Phone, email, or username"
           placeholderTextColor="#AAB8C2"
           value={username}
-          onChangeText={text => setUsername(text)}
+          onChangeText={text => {
+            setError("")
+            setUsername(text)
+          }}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           placeholderTextColor="#AAB8C2"
           value={password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={text => {
+            setError("")
+            setPassword(text)
+          }}
           secureTextEntry={true}
         />
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
@@ -100,6 +137,8 @@ const styles = StyleSheet.create({
     color: '#1DA1F2',
     fontSize: 16,
   },
+  errorStyle: { color: "red", marginRight: 50, marginBottom: 10 }
+
 });
 
 export default LoginScreen;
