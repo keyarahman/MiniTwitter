@@ -1,46 +1,91 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { ActivityIndicator, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import axios from 'axios';
 
 const SignupScreen = () => {
     const navigation = useNavigation()
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
-    const handleSignup = () => {
-        // Handle user sign up here
+    const handleSignup = async () => {
+        setIsLoading(true)
+
+        if (!name || !email || !password) {
+            setError("Please fill up all the provided fields")
+        } else {
+
+            try {
+                const { data } = await axios.post('https://missingdata.pythonanywhere.com/signup', {
+                    username: name,
+                    email: email,
+                    password: password,
+                }
+                )
+
+                // console.log("res", data,)
+
+                if (data?.message === "successful") {
+                    Alert.alert("Congratulations, Your account has been successfully created.")
+                    navigation.navigate("LogIn")
+                }
+            }
+            catch (e) {
+                setError("Already Exists!")
+                console.log(e)
+            }
+
+        }
+        setIsLoading(false)
     };
+
+
 
     return (
         <View style={styles.container}>
             <Image source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png" }} style={styles.logo} />
             <Text style={styles.title}>Create your account</Text>
+
+            <Text style={{ color: "red", marginRight: 60, marginBottom: 10 }}>{error}</Text>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
-                    placeholder="Name"
+                    placeholder="User Name"
                     placeholderTextColor="#AAB8C2"
                     value={name}
-                    onChangeText={text => setName(text)}
+                    onChangeText={text => {
+                        setError("")
+                        setName(text)
+                    }}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
                     placeholderTextColor="#AAB8C2"
                     value={email}
-                    onChangeText={text => setEmail(text)}
+                    onChangeText={text => {
+                        setError("")
+                        setEmail(text)
+                    }}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Password"
                     placeholderTextColor="#AAB8C2"
                     value={password}
-                    onChangeText={text => setPassword(text)}
+                    onChangeText={text => {
+                        setError("")
+                        setPassword(text)
+                    }}
                     secureTextEntry={true}
                 />
                 <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-                    <Text style={styles.signupButtonText}>Sign up</Text>
+                    {isLoading ?
+                        <ActivityIndicator color={"white"} /> :
+                        <Text style={styles.signupButtonText}>Sign up</Text>}
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("LogIn")}>
                     <Text style={{ textAlign: "center", color: "#d9d9d9" }}>Have an account already? <Text style={styles.link}>Log In</Text></Text>
