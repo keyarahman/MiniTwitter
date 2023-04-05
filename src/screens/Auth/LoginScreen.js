@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch } from 'react-redux';
+import { AddToken } from '../../redux/AuthSlice';
 const LoginScreen = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("")
@@ -26,8 +29,7 @@ const LoginScreen = () => {
         console.log("data", data.token)
         if (data?.token) {
           Alert.alert("Successfully Login")
-          navigation.navigate("Home")
-          AsyncStorage.setItem("token", JSON.stringify(data?.token))
+          dispatch(AddToken({ token: data?.token, isLoading: false }))
 
         }
       }

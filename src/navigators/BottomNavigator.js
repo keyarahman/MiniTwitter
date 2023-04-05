@@ -3,23 +3,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TopTabs from './TopNavigator';
 import Search from 'react-native-vector-icons/AntDesign';
 import Notify from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import UserSearchScreen from '../screens/BottomTabScreens/UserSearchScreen';
 import NotificationScreen from '../screens/BottomTabScreens/NotificationScreen';
 import MessageScreen from '../screens/BottomTabScreens/MessageScreen';
 
-
 const BottomTab = createBottomTabNavigator();
 
-// Bottom tab 
 const BottomTabs = () => {
     return (
         <BottomTab.Navigator
-            // activeColor="#e91e63"
             screenOptions={{
-                tabBarActiveTintColor: "red",
-                tabBarInactiveTintColor: "white",
+                tabBarActiveTintColor: "white",
+                tabBarInactiveTintColor: "gray",
                 tabBarShowLabel: false,
+                tabBarStyle: { borderTopWidth: 1, borderColor: "gray", backgroundColor: "black" }
             }}
         >
             <BottomTab.Screen name="Home" component={TopTabs}
