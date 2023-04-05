@@ -1,29 +1,16 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import Route from './src/Route';
+import Route from './src/navigators/Route';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer, DarkTheme } from "@react-navigation/native"
+
 const App = () => {
-
-
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <Route />
-
-    </View>
+    <SafeAreaProvider style={{ flex: 1, backgroundColor: "#fff" }}>
+      <NavigationContainer theme={DarkTheme}>
+        <Route />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 

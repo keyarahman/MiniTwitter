@@ -16,7 +16,7 @@ const HomeScreen = () => {
         getToken()
     }, [])
     return (
-        <View>
+        <View style={{ backgroundColor: "black", flex: 1 }}>
             <Text>HomeScreen</Text>
         </View>
     )
