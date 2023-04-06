@@ -3,22 +3,33 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const TweetScreen = () => {
+    const { token } = useSelector(state => state.user.userTokenInfo);
+
     const navigation = useNavigation()
     const [tweet, setTweet] = useState('');
 
-    const handleTweet = () => {
-        // Code to post the tweet to Twitter API
-        console.log('Posting tweet: ', tweet);
-        AsyncStorage.getItem("token").then(token => {
-            console.log("toke", token)
+    const handleTweet = async () => {
 
-        })
+        try {
+            const { data } = await axios.post('https://missingdata.pythonanywhere.com/tweet', { content: tweet }, {
+                headers: {
+                    'X-Jwt-Token': `Bearer ${token}`
+                }
+            });
+            console.log("res", data)
+            if (data?.message === "successfully created tweet") {
+                setTweet('');
+                navigation.navigate("For you")
+            } else {
+                Alert.alert("Something went wrong. Please try again later")
+            }
+        } catch (e) {
 
+        }
 
-        setTweet('');
-        navigation.navigate("For you")
     };
 
     return (
