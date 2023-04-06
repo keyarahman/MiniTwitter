@@ -4,8 +4,7 @@ import TopTabs from './TopNavigator';
 import Search from 'react-native-vector-icons/AntDesign';
 import Notify from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import SearchScreen from '../screens/BottomTabScreens/SearchScreen';
+import UserSearchScreen from '../screens/BottomTabScreens/SearchScreen';
 import NotificationScreen from '../screens/BottomTabScreens/NotificationScreen';
 import MessageScreen from '../screens/BottomTabScreens/MessageScreen';
 
@@ -28,7 +27,7 @@ const BottomTabs = () => {
                     ),
                 }}
             />
-            <BottomTab.Screen name="Search" component={SearchScreen}
+            <BottomTab.Screen name="Search" component={UserSearchScreen}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ color, size }) => (

@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Pressable } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
 import { AddToken } from '../redux/AuthSlice';
+import { useNavigation } from '@react-navigation/native';
 
 const DrawerContent = ({ navigation }) => {
 
@@ -17,25 +18,25 @@ const DrawerContent = ({ navigation }) => {
 
     return (
         <ScrollView style={styles.container}>
-            <View style={styles.header}>
-                <View style={styles.avatarContainer}>
+            <Pressable style={styles.header} >
+                <Pressable style={styles.avatarContainer} onPress={() => navigation.navigate("Profile")}>
                     <Image
                         source={{ uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }}
                         style={styles.avatar}
                     />
-                </View>
+                </Pressable>
                 <View style={styles.userInfo}>
                     <Text style={styles.name}>Jack Dorsey</Text>
                     <Text style={styles.username}>@jack</Text>
                 </View>
-            </View>
+            </Pressable>
             <View style={styles.menu}>
-                <MenuItem label="Home" icon="home" />
-                <MenuItem label="Profile" icon="account-circle" />
-                <MenuItem label="Explore" icon="search" />
-                <MenuItem label="Notifications" icon="notifications-none" />
-                <MenuItem label="Messages" icon="mail-outline" />
-                <MenuItem label="More" icon="more-horiz" />
+                <MenuItem label="Home" icon="home" pageName="Home" />
+                <MenuItem label="Profile" icon="account-circle" pageName="Profile" />
+                <MenuItem label="Explore" icon="search" pageName="Search" />
+                <MenuItem label="Notifications" icon="notifications-none" pageName="Notify" />
+                <MenuItem label="Messages" icon="mail-outline" pageName="Message" />
+                {/* <MenuItem label="More" icon="more-horiz" pageName="" /> */}
             </View>
             <View style={styles.footer}>
                 <Text style={styles.smallText}>Terms of Service</Text>
@@ -51,12 +52,14 @@ const DrawerContent = ({ navigation }) => {
     );
 };
 
-const MenuItem = ({ label, icon }) => {
+const MenuItem = ({ label, icon, pageName }) => {
+    console.log("name", pageName)
+    const navigation = useNavigation()
     return (
-        <View style={styles.menuItem}>
+        <Pressable style={styles.menuItem} onPress={() => navigation.navigate(`${pageName}`)}>
             <Icon name={icon} size={24} color="#fff" />
             <Text style={styles.menuItemText}>{label}</Text>
-        </View>
+        </Pressable>
     );
 };
 
@@ -69,7 +72,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 30
+        paddingVertical: 30,
 
     },
     avatarContainer: {

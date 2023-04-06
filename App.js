@@ -12,7 +12,7 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <SafeAreaProvider style={{ flex: 1, backgroundColor: "#fff" }}>
+      <SafeAreaProvider style={{ flex: 1, }}>
         <NavigationContainer theme={DarkTheme}>
           <Route />
         </NavigationContainer>

@@ -3,7 +3,7 @@ import BottomTabs from './BottomNavigator';
 import { View } from 'react-native';
 const DrawerStack = createDrawerNavigator()
 import DrawerContent from '../components/DrawerContent';
-
+import ProfileScreen from '../screens/ProfileScreen';
 const DrawerNavigator = () => {
 
     return (
@@ -14,13 +14,11 @@ const DrawerNavigator = () => {
             <DrawerStack.Screen name="Tabs" component={BottomTabs} options={{
                 title: "Home",
             }} />
-            <DrawerStack.Screen name="Proifle" component={Profile} />
+            <DrawerStack.Screen name="Profile" component={ProfileScreen} />
         </DrawerStack.Navigator>
     )
 }
 
-const Profile = () => {
-    return <View></View>
-}
+
 
 export default DrawerNavigator

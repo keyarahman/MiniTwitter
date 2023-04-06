@@ -2,21 +2,20 @@ import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import axios from 'axios';
-export default function Card({ data }) {
-    const { username, tweet, image, time, retweets, likes, tweetImage } = data;
+export default function TweetCard({ username, email, tweet }) {
 
     return (
         <View style={styles.card}>
             <View style={styles.leftContainer}>
-                <Image source={image} style={styles.profileImage} />
+                <Image source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc4rdi7yIcgCYMI76dCj_182YiiGyPN-TXzQ&usqp=CAU" }} style={styles.profileImage} />
             </View>
             <View style={styles.rightContainer}>
                 <View style={styles.headerContainer}>
                     <Text style={styles.username}>{username}</Text>
-                    <Text style={styles.time}>{time}</Text>
+                    <Text style={styles.time}>2h ago</Text>
                 </View>
                 <Text style={styles.tweet}>{tweet}</Text>
-                <Image source={tweetImage} style={styles.tweetImage} />
+                <Image source={{ uri: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?fit=crop&w=600&q=80' }} style={styles.tweetImage} />
                 <View style={styles.footerContainer}>
                     <TouchableOpacity style={styles.iconContainer}>
                         <AntDesign name="message1" size={20} color="#8899a6" />
@@ -24,11 +23,11 @@ export default function Card({ data }) {
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconContainer}>
                         <AntDesign name="retweet" size={20} color="#8899a6" />
-                        <Text style={styles.iconText}>{retweets}</Text>
+                        <Text style={styles.iconText}>23</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconContainer}>
                         <AntDesign name="hearto" size={20} color="#8899a6" />
-                        <Text style={styles.iconText}>{likes}</Text>
+                        <Text style={styles.iconText}>{12}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.iconContainer}>
                         <AntDesign name="sharealt" size={20} color="#8899a6" />
