@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
+import FollowCard from '../../components/FollowCard';
 
 const SearchScreen = () => {
   const [search, setSearch] = useState('');
@@ -31,17 +32,7 @@ const SearchScreen = () => {
 
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.item}>
-      <View style={styles.itemLeft}>
-        <Image source={{ uri: "https://via.placeholder.com/50x50.png?text=DP" }} style={{ height: 50, width: 50, borderRadius: 25, margin: 5 }} />
-        <View style={styles.itemText}>
-          <Text style={styles.itemName}>{item.username}</Text>
-          <Text style={{ color: "gray", fontSize: 14, fontWeight: "500" }}>{item.email}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -60,7 +51,7 @@ const SearchScreen = () => {
       </View>
       <FlatList
         data={filteredData}
-        renderItem={renderItem}
+        renderItem={({ item }) => <FollowCard id={item.id} username={item.username} email={item.email} />}
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
@@ -70,7 +61,7 @@ const SearchScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0F1419',
+    backgroundColor: 'black',
     paddingHorizontal: 20,
     paddingTop: 10,
   },

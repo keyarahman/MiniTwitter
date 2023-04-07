@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity, useColorScheme, ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 
-const FollowCard = ({ id, name, username }) => {
+const FollowCard = ({ id, email, username }) => {
     const textColor = '#fff'
     const backgroundColor = '#000'
     const [isLoading, setLoading] = useState(false)
@@ -35,8 +35,8 @@ const FollowCard = ({ id, name, username }) => {
             <View style={[styles.container, { backgroundColor }]}>
                 <Image style={styles.avatar} source={{ uri: "https://via.placeholder.com/50x50.png?text=DP" }} />
                 <View style={styles.textContainer}>
-                    <Text style={[styles.name, { color: textColor }]}>{name}</Text>
-                    <Text style={[styles.username, { color: textColor }]}>@{username}</Text>
+                    <Text numberOfLines={1} style={[styles.name, { color: textColor, maxWidth: 180 }]}>{username}</Text>
+                    <Text numberOfLines={1} style={[styles.username, { color: textColor, maxWidth: 180 }]}>{email}</Text>
                 </View>
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={[styles.button, { backgroundColor: "white" }]} onPress={followUnfollow}>

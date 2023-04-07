@@ -7,6 +7,7 @@ import { store } from './src/redux/Store';
 import { Provider, useDispatch } from 'react-redux'
 import { AddToken } from './src/redux/AuthSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'react-native';
 const App = () => {
 
 
@@ -15,6 +16,7 @@ const App = () => {
       <SafeAreaProvider style={{ flex: 1, }}>
         <NavigationContainer theme={DarkTheme}>
           <Route />
+          <StatusBar barStyle="light-content" />
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>

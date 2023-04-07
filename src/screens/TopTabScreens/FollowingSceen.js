@@ -36,20 +36,12 @@ const FollowingSceen = () => {
     const renderItem = ({ item, index }) => {
 
         return (
-            < TweetCard username={item.username} email={item.email} tweet={item?.tweet ? item?.tweet : tweet} />
+            <TweetCard username={item.username} email={item.email} tweet={item?.tweet ? item?.tweet : tweet} />
         )
     }
     return (
-        <ScrollView style={styles.container}>
-
+        <View style={styles.container}>
             {followingList?.length > 0 ?
-                // <>
-                //     {followingList.map(({ item, index }) => {
-                //         < TweetCard username={item?.username} email={item?.email} tweet={item?.tweet ? item?.tweet : tweet} />
-
-                //     })}
-                // </>
-
                 <FlatList
                     data={followingList}
                     renderItem={renderItem}
@@ -60,7 +52,7 @@ const FollowingSceen = () => {
                 <><Text style={{ color: "#fff" }}>No data </Text></>
             }
 
-        </ScrollView>
+        </View>
     )
 
 }

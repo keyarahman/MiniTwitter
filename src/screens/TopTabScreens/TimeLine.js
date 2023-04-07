@@ -1,13 +1,12 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native'
+import { View, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import TweetCard from '../../components/TweetCard'
-import { ScrollView } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import FollowCard from '../../components/FollowCard';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const TimeLine = () => {
-    const [usersList, setUserList] = useState([])
+const TimeLine = ({ navigation }) => {
+    const [posts, setPosts] = useState([])
     const { token } = useSelector(state => state.user.userTokenInfo);
 
     const getTweets = async () => {
@@ -19,70 +18,49 @@ const TimeLine = () => {
                 }
             });
             // console.log("res", data)
+            setPosts(data.timeline)
+            console.log(data)
         } catch (e) {
 
-        }
-
-    }
-    const getUsers = async () => {
-
-        try {
-            const { data } = await axios.get('https://missingdata.pythonanywhere.com/users', {
-                headers: {
-                    'X-Jwt-Token': `Bearer ${token}`
-                }
-            });
-
-            setUserList(data.users)
-        }
-        catch (e) {
         }
 
     }
 
     useEffect(() => {
         getTweets()
-        getUsers()
     }, [])
 
+    React.useEffect(() => {
 
-    const renderUserItem = ({ item, index }) => {
-        if (index > 2) return <></>
-        return (
-            <FollowCard
-                id={item?.id}
-                name={item.username}
-                username={item.email}
-            />
-        )
-    }
-    const tweet = 'Check out this awesome photo I took on my vacation! #travel'
+        navigation.setOptions({
+
+            headerBackground: () => <View style={{ flex: 1, backgroundColor: 'black' }} />,
+            headerLeft: () =>
+                <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                    <Image source={{ uri: "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png" }} style={{ height: 32, width: 32, borderRadius: 20, left: 10 }} />
+                </TouchableOpacity>,
+
+            headerTitle: () =>
+                <Image source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png" }} style={{ height: 20, width: 20 }} />
+        })
+    }, [navigation])
 
     return (
-        <ScrollView style={styles.container}>
-            <FlatList
-                data={usersList}
-                renderItem={renderUserItem}
-                keyExtractor={(item) => item.id}
-                ListFooterComponent={() => <View style={{ marginBottom: 60 }} />}
-            />
-            <FlatList
-                data={usersList}
-                renderItem={(item) =>
-                    < TweetCard username={item.username} email={item.email} tweet={item?.tweet ? item?.tweet : tweet} />
 
+        <View style={{ flex: 1, position: 'relative', }}>
+            <FlatList
+                contentContainerStyle={{ paddingVertical: 16 }}
+                data={posts}
+                renderItem={({ item }) =>
+                    <TweetCard username={item.user.username} email={item.user.email} tweet={item.content} />
                 }
                 keyExtractor={(item) => item.id}
                 ListFooterComponent={() => <View style={{ marginBottom: 60 }} />}
             />
-        </ScrollView>
 
+
+        </View>
     )
 }
 
 export default TimeLine
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#0000',
-    },
-});

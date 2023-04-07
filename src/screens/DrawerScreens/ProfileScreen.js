@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View, Text, Image, StyleSheet, SafeAreaView, Pressable } from 'react-native';
 import Icon from "react-native-vector-icons/Octicons"
-import TweetCard from '../components/TweetCard';
+import TweetCard from '../../components/TweetCard';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 const ProfileScreen = ({ navigation }) => {
     const { token } = useSelector(state => state.user.userTokenInfo);
     const [tweetList, setTweetList] = useState([])
+
+
+    React.useEffect(() => {
+
+        navigation.setOptions({
+
+            headerLeft: () =>
+                <TouchableOpacity onPress={() => navigation.openDrawer()} style={{ marginLeft: 15, width: 30 }}>
+                    <Icon name="arrow-left" size={25} color={"white"} />
+                </TouchableOpacity>,
+
+        })
+    }, [navigation])
     const getMyTweets = async () => {
         try {
             const { data } = await axios.get('https://missingdata.pythonanywhere.com/my-tweets', {
@@ -16,61 +31,51 @@ const ProfileScreen = ({ navigation }) => {
             });
             console.log("res", data)
             if (data) {
-                setTweetList(data?.my_tweets)
+                setTweetList(data.my_tweets)
             }
         } catch (e) {
             console.log(e)
         }
     }
+
     useEffect(() => {
         getMyTweets()
     }, [])
-    const tweet = 'Check out this awesome photo I took on my vacation! #travel'
 
     return (
         <SafeAreaView style={styles.container}>
-
-            <View style={styles.header}>
-                <Pressable onPress={() => navigation.goBack()}>
-                    <Icon name="chevron-left" color={"white"} size={25} />
-
-                </Pressable>
-
-                <View style={styles.profile}>
-                    <Image
-                        source={{ uri: 'https://picsum.photos/200' }}
-                        style={styles.profileImage}
-                    />
-                    <View style={styles.profileInfo}>
-                        <Text style={styles.profileName}>John Doe</Text>
-                        <Text style={styles.profileUsername}>@johndoe</Text>
+            <FlatList
+                data={tweetList}
+                renderItem={({ item }) =>
+                    < TweetCard username={item.user.username} email={item.user.email} tweet={item.content} />
+                }
+                keyExtractor={(item) => item.id}
+                ListFooterComponent={() => <View style={{ marginBottom: 60 }} />}
+                ListHeaderComponent={() => (
+                    <View style={styles.header}>
+                        <View style={styles.profile}>
+                            <Image
+                                source={{ uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }}
+                                style={styles.profileImage}
+                            />
+                            <View style={styles.profileInfo}>
+                                <Text style={styles.profileName}>John Doe</Text>
+                                <Text style={styles.profileUsername}>@johndoe</Text>
+                            </View>
+                        </View>
+                        <Pressable style={styles.stats} onPress={() => navigation.navigate("followUnfollow")}>
+                            <View style={styles.stat}>
+                                <Text style={styles.statNumber}>123</Text>
+                                <Text style={styles.statLabel}>Following</Text>
+                            </View>
+                            <View style={styles.stat}>
+                                <Text style={styles.statNumber}>456</Text>
+                                <Text style={styles.statLabel}>Followers</Text>
+                            </View>
+                        </Pressable>
                     </View>
-                </View>
-                <View style={styles.stats}>
-                    <View style={styles.stat}>
-                        <Text style={styles.statNumber}>123</Text>
-                        <Text style={styles.statLabel}>Following</Text>
-                    </View>
-                    <View style={styles.stat}>
-                        <Text style={styles.statNumber}>456</Text>
-                        <Text style={styles.statLabel}>Followers</Text>
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.tweets}>
-                <Text style={styles.tweetsHeading}>Tweets</Text>
-                <FlatList
-                    data={tweetList}
-                    renderItem={(item) =>
-                        < TweetCard username={item.username} email={item.email} tweet={item?.tweet ? item?.tweet : tweet} />
-
-                    }
-                    keyExtractor={(item) => item.id}
-                    ListFooterComponent={() => <View style={{ marginBottom: 60 }} />}
-                />
-                {/* Insert your tweet list component here */}
-            </View>
+                )}
+            />
         </SafeAreaView>
     );
 };
@@ -81,24 +86,17 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
     },
     header: {
-        backgroundColor: '#14171A',
-        paddingTop: 24,
-        paddingBottom: 16,
-        paddingHorizontal: 16,
-        // flexDirection: 'row',
-        // alignItems: 'center',
-        justifyContent: 'space-between',
+        padding: 16
     },
     profile: {
-        // flexDirection: 'row',
-        // alignItems: 'center',
-        margin: 5, marginVertical: 15
+        margin: 5,
+        marginVertical: 15
     },
     profileImage: {
         width: 72,
         height: 72,
         borderRadius: 36,
-        marginRight: 16, marginVertical: 5
+        marginRight: 16, marginVertical: 16
     },
     profileInfo: {
         flexDirection: 'column',

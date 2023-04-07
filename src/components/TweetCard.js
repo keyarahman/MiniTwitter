@@ -15,7 +15,7 @@ export default function TweetCard({ username, email, tweet }) {
                     <Text style={styles.time}>2h ago</Text>
                 </View>
                 <Text style={styles.tweet}>{tweet}</Text>
-                <Image source={{ uri: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?fit=crop&w=600&q=80' }} style={styles.tweetImage} />
+                {/* <Image source={{ uri: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?fit=crop&w=600&q=80' }} style={styles.tweetImage} /> */}
                 <View style={styles.footerContainer}>
                     <TouchableOpacity style={styles.iconContainer}>
                         <AntDesign name="message1" size={20} color="#8899a6" />

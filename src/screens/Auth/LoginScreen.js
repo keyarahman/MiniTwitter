@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
@@ -71,7 +71,9 @@ const LoginScreen = () => {
           secureTextEntry={true}
         />
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Log in</Text>
+          {isLoading ?
+            <ActivityIndicator color={"white"} /> :
+            <Text style={styles.loginButtonText}>Log in</Text>}
         </TouchableOpacity>
         <View style={styles.linkContainer}>
           <TouchableOpacity>

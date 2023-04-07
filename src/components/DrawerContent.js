@@ -18,8 +18,8 @@ const DrawerContent = ({ navigation }) => {
 
     return (
         <ScrollView style={styles.container}>
-            <Pressable style={styles.header} >
-                <Pressable style={styles.avatarContainer} onPress={() => navigation.navigate("Profile")}>
+            <Pressable style={styles.header} onPress={() => navigation.navigate("Profile")} >
+                <Pressable style={styles.avatarContainer} >
                     <Image
                         source={{ uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }}
                         style={styles.avatar}

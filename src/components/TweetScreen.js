@@ -88,6 +88,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'flex-start',
         marginTop: 30,
+        borderWidth: .25,
+        borderColor: "gray",
+        padding: 10,
+
+        height: 280, borderRadius: 10
     },
     dp: {
         width: 50,

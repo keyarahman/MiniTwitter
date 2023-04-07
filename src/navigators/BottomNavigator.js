@@ -4,6 +4,7 @@ import TopTabs from './TopNavigator';
 import Search from 'react-native-vector-icons/AntDesign';
 import Notify from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import UserSearchScreen from '../screens/BottomTabScreens/SearchScreen';
 import NotificationScreen from '../screens/BottomTabScreens/NotificationScreen';
 import MessageScreen from '../screens/BottomTabScreens/MessageScreen';

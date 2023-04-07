@@ -3,7 +3,7 @@ import React from 'react'
 import { ScrollView } from 'react-native';
 import TweetCard from '../../components/TweetCard';
 
-const FollowerScreen = () => {
+const NewsUpdateScreen = () => {
     const data = {
         username: 'John Doe',
         tweet: 'Check out this awesome photo I took on my vacation! #travel',
@@ -17,10 +17,10 @@ const FollowerScreen = () => {
     )
 }
 
-export default FollowerScreen
+export default NewsUpdateScreen
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'red',
+        backgroundColor: 'black',
     },
 });
