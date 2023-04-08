@@ -11,6 +11,7 @@ const ProfileScreen = ({ navigation }) => {
     const isTweetListUpdate = useSelector(state => state.user.updateTweetsList)
     const { token } = useSelector(state => state.user.userTokenInfo);
     const { email } = useSelector(state => state.user.userInfo)
+    console.log("emil", email)
     const [tweetList, setTweetList] = useState([])
     const [followingList, setFollowingList] = useState([])
     const [followersList, setFollowerList] = useState([])
@@ -104,10 +105,13 @@ const ProfileScreen = ({ navigation }) => {
                 <FlatList
                     data={tweetList}
                     renderItem={({ item }) =>
+
                         < TweetCard username={item.user.username} email={item.user.email} tweet={item.content} />
                     }
                     keyExtractor={(item) => item.id}
-                    ListFooterComponent={() => <View style={{ marginBottom: 60 }} />}
+                    ListEmptyComponent={() => <View style={{ height: 200, width: "100%", alignItems: "center", justifyContent: "center" }}>
+                        <Text style={{ color: "white", fontSize: 14, fontWeight: "500", paddingHorizontal: 30 }}>No recent tweets to display</Text>
+                    </View>}
                     ListHeaderComponent={() => (
                         <View style={styles.header}>
                             <View style={styles.profile}>
@@ -134,6 +138,7 @@ const ProfileScreen = ({ navigation }) => {
                                     <Text style={styles.statLabel}>Followers</Text>
                                 </TouchableOpacity>
                             </View>
+                            <Text style={{ color: "white", marginTop: 15, fontSize: 20, fontWeight: "600" }}>Tweet</Text>
                         </View>
                     )}
                 />}

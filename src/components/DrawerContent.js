@@ -1,6 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, Pressable } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    Pressable,
+} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useDispatch } from 'react-redux';
@@ -8,22 +15,24 @@ import { AddToken } from '../redux/AuthSlice';
 import { useNavigation } from '@react-navigation/native';
 
 const DrawerContent = ({ navigation }) => {
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const handleLogout = async () => {
-        dispatch(AddToken({ token: null, isLoading: false }))
-        await AsyncStorage.clear()
+        dispatch(AddToken({ token: null, isLoading: false }));
+        await AsyncStorage.clear();
         navigation.closeDrawer();
-
     };
 
     return (
         <ScrollView style={styles.container}>
-            <Pressable style={styles.header} onPress={() => navigation.navigate("Profile")} >
-                <Pressable style={styles.avatarContainer} >
+            <Pressable
+                style={styles.header}
+                onPress={() => navigation.navigate('Profile')}>
+                <Pressable style={styles.avatarContainer}>
                     <Image
-                        source={{ uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }}
+                        source={{
+                            uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+                        }}
                         style={styles.avatar}
                     />
                 </Pressable>
@@ -36,7 +45,11 @@ const DrawerContent = ({ navigation }) => {
                 <MenuItem label="Home" icon="home" pageName="Home" />
                 <MenuItem label="Profile" icon="account-circle" pageName="Profile" />
                 <MenuItem label="Explore" icon="search" pageName="Search" />
-                <MenuItem label="Notifications" icon="notifications-none" pageName="Notify" />
+                <MenuItem
+                    label="Notifications"
+                    icon="notifications-none"
+                    pageName="Notify"
+                />
                 <MenuItem label="Messages" icon="mail-outline" pageName="Message" />
                 {/* <MenuItem label="More" icon="more-horiz" pageName="" /> */}
             </View>
@@ -55,10 +68,12 @@ const DrawerContent = ({ navigation }) => {
 };
 
 const MenuItem = ({ label, icon, pageName }) => {
-    console.log("name", pageName)
-    const navigation = useNavigation()
+    console.log('name', pageName);
+    const navigation = useNavigation();
     return (
-        <Pressable style={styles.menuItem} onPress={() => navigation.navigate(`${pageName}`)}>
+        <Pressable
+            style={styles.menuItem}
+            onPress={() => navigation.navigate(`${pageName}`)}>
             <Icon name={icon} size={24} color="#fff" />
             <Text style={styles.menuItemText}>{label}</Text>
         </Pressable>
@@ -75,16 +90,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 30,
-
     },
     avatarContainer: {
         borderRadius: 50,
-        backgroundColor: "Red"
+        backgroundColor: 'Red',
     },
     avatar: {
         width: 50,
         height: 50,
-        borderRadius: 25
+        borderRadius: 25,
     },
     userInfo: {
         marginLeft: 16,
@@ -98,8 +112,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#657786',
     },
-    menu: {
-    },
+    menu: {},
     menuItem: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -110,13 +123,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 16,
-        color: "white"
+        color: 'white',
     },
     footer: {
         borderTopWidth: 1,
         borderTopColor: '#e6ecf0',
         paddingTop: 60,
-
     },
     smallText: {
         fontSize: 14,
@@ -124,11 +136,10 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     logoutText: {
-        color: "red",
+        color: 'red',
         fontSize: 17,
-        fontWeight: "bold",
-
-    }
+        fontWeight: 'bold',
+    },
 });
 
 export default DrawerContent;

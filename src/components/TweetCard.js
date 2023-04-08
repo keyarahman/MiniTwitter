@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 export default function TweetCard({ username, email, tweet }) {
-
     return (
         <View style={styles.card}>
             <View style={styles.leftContainer}>
-                <Image source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc4rdi7yIcgCYMI76dCj_182YiiGyPN-TXzQ&usqp=CAU" }} style={styles.profileImage} />
+                <Image
+                    source={{
+                        uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc4rdi7yIcgCYMI76dCj_182YiiGyPN-TXzQ&usqp=CAU',
+                    }}
+                    style={styles.profileImage}
+                />
             </View>
             <View style={styles.rightContainer}>
                 <View style={styles.headerContainer}>

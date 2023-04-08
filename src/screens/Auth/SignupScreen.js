@@ -1,49 +1,63 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { ActivityIndicator, View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
+import {
+    ActivityIndicator,
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Image,
+    Alert,
+} from 'react-native';
 import axios from 'axios';
 
 const SignupScreen = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState("")
-    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSignup = async () => {
-        setError("")
-        setIsLoading(true)
+        setError('');
+        setIsLoading(true);
         if (!name || !email || !password) {
-            setError("Please fill up all the provided fields")
+            setError('Please fill up all the provided fields');
         } else {
             try {
-                const { data } = await axios.post('https://missingdata.pythonanywhere.com/signup', {
-                    username: name,
-                    email: email,
-                    password: password,
-                }
-                )
+                const { data } = await axios.post(
+                    'https://missingdata.pythonanywhere.com/signup',
+                    {
+                        username: name,
+                        email: email,
+                        password: password,
+                    },
+                );
                 // console.log("res", data,)
-                if (data?.message === "successful") {
-                    Alert.alert("Congratulations, Your account has been successfully created.")
-                    navigation.navigate("LogIn")
+                if (data?.message === 'successful') {
+                    Alert.alert(
+                        'Congratulations, Your account has been successfully created.',
+                    );
+                    navigation.navigate('LogIn');
                 }
+            } catch (e) {
+                setError('Already Exists!');
+                console.log(e);
             }
-            catch (e) {
-                setError("Already Exists!")
-                console.log(e)
-            }
-
         }
-        setIsLoading(false)
+        setIsLoading(false);
     };
-
-
 
     return (
         <View style={styles.container}>
-            <Image source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png" }} style={styles.logo} />
+            <Image
+                source={{
+                    uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png',
+                }}
+                style={styles.logo}
+            />
             <Text style={styles.title}>Create your account</Text>
 
             <Text style={styles.errorStyle}>{error}</Text>
@@ -54,8 +68,8 @@ const SignupScreen = () => {
                     placeholderTextColor="#AAB8C2"
                     value={name}
                     onChangeText={text => {
-                        setError("")
-                        setName(text)
+                        setError('');
+                        setName(text);
                     }}
                 />
                 <TextInput
@@ -64,8 +78,8 @@ const SignupScreen = () => {
                     placeholderTextColor="#AAB8C2"
                     value={email}
                     onChangeText={text => {
-                        setError("")
-                        setEmail(text)
+                        setError('');
+                        setEmail(text);
                     }}
                 />
                 <TextInput
@@ -74,18 +88,23 @@ const SignupScreen = () => {
                     placeholderTextColor="#AAB8C2"
                     value={password}
                     onChangeText={text => {
-                        setError("")
-                        setPassword(text)
+                        setError('');
+                        setPassword(text);
                     }}
+                    keyboardType="phone-pad"
                     secureTextEntry={true}
                 />
                 <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-                    {isLoading ?
-                        <ActivityIndicator color={"white"} /> :
-                        <Text style={styles.signupButtonText}>Sign up</Text>}
+                    {isLoading ? (
+                        <ActivityIndicator color={'white'} />
+                    ) : (
+                        <Text style={styles.signupButtonText}>Sign up</Text>
+                    )}
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate("LogIn")}>
-                    <Text style={{ textAlign: "center", color: "#d9d9d9" }}>Have an account already? <Text style={styles.link}>Log In</Text></Text>
+                <TouchableOpacity onPress={() => navigation.navigate('LogIn')}>
+                    <Text style={{ textAlign: 'center', color: '#d9d9d9' }}>
+                        Have an account already? <Text style={styles.link}>Log In</Text>
+                    </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -93,7 +112,6 @@ const SignupScreen = () => {
 };
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         backgroundColor: 'black',
@@ -146,7 +164,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     boldLink: {
-        color: "#ffff",
+        color: '#ffff',
         fontWeight: 'bold',
         textDecorationLine: 'underline',
     },
@@ -154,7 +172,7 @@ const styles = StyleSheet.create({
         color: '#1DA1F2',
         fontSize: 16,
     },
-    errorStyle: { color: "red", marginRight: 60, marginBottom: 10 }
+    errorStyle: { color: 'red', marginRight: 60, marginBottom: 10 },
 });
 
 export default SignupScreen;

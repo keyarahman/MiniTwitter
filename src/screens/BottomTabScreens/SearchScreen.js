@@ -1,6 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Pressable } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  SafeAreaView,
+  Pressable,
+} from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import FollowCard from '../../components/FollowCard';
@@ -10,50 +19,66 @@ const SearchScreen = ({ navigation }) => {
   const [filteredData, setFilteredData] = useState([]);
   const { token } = useSelector(state => state.user.userTokenInfo);
 
-  const handleSearch = async (text) => {
+  const handleSearch = async text => {
     setSearch(text);
 
     try {
-      const { data } = await axios.post('https://missingdata.pythonanywhere.com/search', {
-        token: text
-      },
+      const { data } = await axios.post(
+        'https://missingdata.pythonanywhere.com/search',
+        {
+          token: text,
+        },
         {
           headers: {
-            'X-Jwt-Token': `Bearer ${token}`
-          }
-        });
-      console.log("data", data)
+            'X-Jwt-Token': `Bearer ${token}`,
+          },
+        },
+      );
+      console.log('data', data);
       if (data && data.count > 0) {
-        setFilteredData(data?.search_results)
+        setFilteredData(data?.search_results);
       }
-    } catch (e) {
-
-    }
-
+    } catch (e) { }
   };
-
-
 
   return (
     <SafeAreaView style={styles.container}>
-      <Pressable style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 20 }} onPress={() => navigation.openDrawer()}>
-        <Image
-          source={{ uri: "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png" }} style={{ height: 45, width: 45, borderRadius: 22, margin: 5 }} />
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginBottom: 20,
+        }}>
+        <Pressable onPress={() => navigation.openDrawer()}>
+          <Image
+            source={{
+              uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png',
+            }}
+            style={{ height: 45, width: 45, borderRadius: 22, margin: 5 }}
+          />
+        </Pressable>
+
         <SearchBar
-          placeholder='Search Twitter'
+          placeholder="Search Twitter"
           onChangeText={handleSearch}
           value={search}
           inputContainerStyle={styles.searchInputContainer}
           containerStyle={styles.searchContainer}
           inputStyle={styles.searchInput}
-          placeholderTextColor='#6E767D'
+          placeholderTextColor="#6E767D"
         />
         <View></View>
-      </Pressable>
+      </View>
       <FlatList
         data={filteredData}
-        renderItem={({ item }) => <FollowCard id={item.id} username={item.username} email={item.email} />}
-        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <FollowCard
+            id={item.id}
+            username={item.username}
+            email={item.email}
+          />
+        )}
+        keyExtractor={item => item.id}
       />
     </SafeAreaView>
   );
@@ -72,12 +97,12 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     borderBottomWidth: 0,
     paddingHorizontal: 10,
-    width: "70%", alignSelf: "center",
+    width: '70%',
+    alignSelf: 'center',
   },
   searchInputContainer: {
     backgroundColor: '#1D2025',
     height: 30,
-
   },
   searchInput: {
     color: '#D9D9D9',
@@ -101,10 +126,8 @@ const styles = StyleSheet.create({
   itemName: {
     color: '#D9D9D9',
     fontSize: 17,
-    fontWeight: "bold"
-  }
-})
-
-
+    fontWeight: 'bold',
+  },
+});
 
 export default SearchScreen;

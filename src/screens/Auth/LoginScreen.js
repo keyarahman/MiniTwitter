@@ -8,7 +8,7 @@ import { AddToken, aduserInfo } from '../../redux/AuthSlice';
 const LoginScreen = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const [email, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -30,8 +30,8 @@ const LoginScreen = () => {
         if (data?.token) {
           Alert.alert("Successfully Login")
           AsyncStorage.setItem("token", data?.token)
-          dispatch(AddToken({ token: data?.token, isLoading: false }))
           dispatch(aduserInfo({ email: email }))
+          dispatch(AddToken({ token: data?.token, isLoading: false }))
 
         }
       }
@@ -53,12 +53,12 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Phone, email, or username"
+          placeholder="Email"
           placeholderTextColor="#AAB8C2"
           value={email}
           onChangeText={text => {
             setError("")
-            setUsername(text)
+            setEmail(text)
           }}
         />
         <TextInput
@@ -66,6 +66,7 @@ const LoginScreen = () => {
           placeholder="Password"
           placeholderTextColor="#AAB8C2"
           value={password}
+          keyboardType="phone-pad"
           onChangeText={text => {
             setError("")
             setPassword(text)
