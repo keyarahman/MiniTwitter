@@ -2,7 +2,14 @@
 
 ## Description
 
-This is a mini Twitter app built with React Native.
+This is a mini Twitter mobile application built with React Native. It allows users to post and view tweets, as well as follow other users
+
+## Prerequisites:
+Before starting, ensure that you have the following installed:
+
+npm (version 6 or higher)
+React Native CLI (npm install -g react-native-cli)
+Android Studio or Xcode for running the emulator
 
 ## Installation:
 
