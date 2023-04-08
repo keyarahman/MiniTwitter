@@ -17,9 +17,6 @@ const Stack = createNativeStackNavigator();
 // Main Route 
 const Route = () => {
     const { token, isLoading } = useSelector(state => state.user.userTokenInfo);
-
-    console.log("token,isLoading", [token, isLoading])
-
     const dispatch = useDispatch()
     React.useEffect(() => {
         AsyncStorage.getItem("token").then(oldToken => dispatch(AddToken({ token: oldToken, isLoading: false })))

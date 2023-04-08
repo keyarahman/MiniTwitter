@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Platform } from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Octicons';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -9,13 +9,15 @@ const TopTab = createMaterialTopTabNavigator();
 const FollowUnfolloTabScreen = ({ navigation }) => {
     React.useEffect(() => {
         navigation.setOptions({
-            headerLeft: () => (
+
+            headerLeft: Platform.OS === "ios" ? () => (
+
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                     style={{ marginLeft: 15, width: 30 }}>
                     <Icon name="arrow-left" size={25} color={'white'} />
                 </TouchableOpacity>
-            ),
+            ) : null,
             headerTitle: () => (
                 <Text
                     numberOfLines={1}

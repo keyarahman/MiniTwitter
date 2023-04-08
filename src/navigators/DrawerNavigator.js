@@ -1,12 +1,8 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import BottomTabs from './BottomNavigator';
-import { View } from 'react-native';
 const DrawerStack = createDrawerNavigator()
 import DrawerContent from '../components/DrawerContent';
 import ProfileScreen from '../screens/DrawerScreens/ProfileScreen';
-import FollowUnfolloTabScreen from '../screens/DrawerScreens/FollowUnfolloTabScreen';
-import AddUserScreen from '../screens/DrawerScreens/AddUserScreen';
-import FollowUnfolloScreen from '../screens/DrawerScreens/FollowUnfolloTabScreen';
 
 const DrawerNavigator = () => {
 

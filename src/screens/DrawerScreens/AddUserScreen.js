@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Platform } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Octicons';
 import axios from 'axios';
@@ -11,13 +11,13 @@ const AddUserScreen = ({ navigation }) => {
 
     React.useEffect(() => {
         navigation.setOptions({
-            headerLeft: () => (
+            headerLeft: Platform.OS === "ios" ? () => (
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}
                     style={{ marginLeft: 15, width: 30 }}>
                     <Icon name="arrow-left" size={25} color={'white'} />
                 </TouchableOpacity>
-            ),
+            ) : null,
             headerTitle: () => (
                 <Text
                     numberOfLines={1}
