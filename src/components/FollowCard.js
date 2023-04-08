@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity, useColorScheme, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateFollowFollowingList } from '../redux/AuthSlice';
 
-const FollowCard = ({ id, email, username }) => {
+const FollowCard = ({ id, email, username, isFollowing, btnColor }) => {
     const textColor = '#fff'
     const backgroundColor = '#000'
+    const dispatch = useDispatch()
     const [isLoading, setLoading] = useState(false)
-    const [isFollow, setIsFollow] = useState(false)
+    const [isFollow, setIsFollow] = useState(isFollowing)
 
     const { token } = useSelector(state => state.user.userTokenInfo);
 
@@ -21,6 +23,10 @@ const FollowCard = ({ id, email, username }) => {
             });
             if (data) {
                 setIsFollow(!isFollow)
+                {
+                    !isFollowing ?
+                        dispatch(updateFollowFollowingList()) : null
+                }
             }
             console.log("res", data)
         } catch (e) {
@@ -38,13 +44,18 @@ const FollowCard = ({ id, email, username }) => {
                     <Text numberOfLines={1} style={[styles.name, { color: textColor, maxWidth: 180 }]}>{username}</Text>
                     <Text numberOfLines={1} style={[styles.username, { color: textColor, maxWidth: 180 }]}>{email}</Text>
                 </View>
+
+                {/* {
+                    btnColor ? */}
+
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={[styles.button, { backgroundColor: "white" }]} onPress={followUnfollow}>
+                    <TouchableOpacity style={[styles.button, { backgroundColor: isFollow ? "black" : "white", borderColor: "gray", borderWidth: .3 }]} onPress={followUnfollow}>
                         {isLoading
-                            ? <ActivityIndicator color={"black"} /> :
-                            <Text style={[styles.buttonText, { color: "black" }]}>{isFollow ? "Following" : "Follow"}</Text>}
+                            ? <ActivityIndicator color={isFollow ? "white" : "black"} /> :
+                            <Text style={[styles.buttonText, { color: isFollow ? "white" : "black" }]}>{isFollow ? "Following" : "Follow"}</Text>}
                     </TouchableOpacity>
                 </View>
+
             </View>
         </View>
     );
@@ -77,12 +88,12 @@ const styles = StyleSheet.create({
         marginTop: 4,
     },
     buttonContainer: {
-        width: 80,
+
     },
     button: {
         borderRadius: 20,
-        padding: 6,
-        // paddingHorizontal: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 12
     },
     buttonText: {
         fontWeight: 'bold',

@@ -12,7 +12,7 @@ const AddUserScreen = ({ navigation }) => {
     React.useEffect(() => {
         navigation.setOptions({
             headerLeft: () =>
-                <TouchableOpacity onPress={() => navigation.navigate("followUnfollow")} style={{ marginLeft: 15, width: 30 }}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 15, width: 30 }}>
                     <Icon name="arrow-left" size={25} color={"white"} />
                 </TouchableOpacity>,
             headerTitle: () => <Text numberOfLines={1} style={{ color: "white", fontSize: 20, maxWidth: 100, fontWeight: "600" }}>Connect</Text>,
@@ -46,8 +46,6 @@ const AddUserScreen = ({ navigation }) => {
     return (
         <View style={{ flex: 1 }}>
             <Text style={styles.title}>Suggested for you</Text>
-
-            <Text>AddUserScreen</Text>
             <FlatList
                 data={usersList}
                 renderItem={({ item }) => <FollowCard id={item.id} username={item.username} email={item.email} />}
@@ -60,5 +58,5 @@ const AddUserScreen = ({ navigation }) => {
 
 export default AddUserScreen
 const styles = StyleSheet.create({
-    title: { fontSize: 20, fontWeight: "600", color: "white" }
+    title: { marginTop: 10, fontSize: 20, fontWeight: "600", color: "white" }
 })

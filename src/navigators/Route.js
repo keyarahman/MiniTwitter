@@ -9,6 +9,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TweetScreen from '../components/TweetScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddToken } from '../redux/AuthSlice';
+import FollowUnfolloTabScreen from '../screens/DrawerScreens/FollowUnfolloTabScreen';
+import AddUserScreen from '../screens/DrawerScreens/AddUserScreen';
 const Stack = createNativeStackNavigator();
 
 
@@ -20,7 +22,7 @@ const Route = () => {
 
     const dispatch = useDispatch()
     React.useEffect(() => {
-        dispatch(AddToken({ token: token, isLoading: false }))
+        AsyncStorage.getItem("token").then(oldToken => dispatch(AddToken({ token: oldToken, isLoading: false })))
     }, [])
 
     if (isLoading) {
@@ -35,6 +37,9 @@ const Route = () => {
                 <>
                     <Stack.Screen name="Drawer" component={DrawerNavigator} options={{ headerShown: false, }} />
                     <Stack.Screen name="Tweet" component={TweetScreen} options={{ headerShown: false, presentation: 'modal' }} />
+                    <Stack.Screen name="followAndUnfollow" component={FollowUnfolloTabScreen} />
+                    <Stack.Screen name="adduser" component={AddUserScreen} />
+
                 </>
             ) : (<>
                 <Stack.Screen

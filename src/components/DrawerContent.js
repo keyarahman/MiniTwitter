@@ -11,9 +11,11 @@ const DrawerContent = ({ navigation }) => {
 
     const dispatch = useDispatch()
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         dispatch(AddToken({ token: null, isLoading: false }))
+        await AsyncStorage.clear()
         navigation.closeDrawer();
+
     };
 
     return (
@@ -26,8 +28,8 @@ const DrawerContent = ({ navigation }) => {
                     />
                 </Pressable>
                 <View style={styles.userInfo}>
-                    <Text style={styles.name}>Jack Dorsey</Text>
-                    <Text style={styles.username}>@jack</Text>
+                    <Text style={styles.name}> </Text>
+                    <Text style={styles.username}> </Text>
                 </View>
             </Pressable>
             <View style={styles.menu}>

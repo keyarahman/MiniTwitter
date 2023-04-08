@@ -3,11 +3,12 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTweetsList } from '../redux/AuthSlice';
 
 const TweetScreen = () => {
     const { token } = useSelector(state => state.user.userTokenInfo);
-
+    const dispatch = useDispatch()
     const navigation = useNavigation()
     const [tweet, setTweet] = useState('');
 
@@ -22,6 +23,7 @@ const TweetScreen = () => {
             console.log("res", data)
             if (data?.message === "successfully created tweet") {
                 setTweet('');
+                dispatch(updateTweetsList())
                 navigation.navigate("For you")
             } else {
                 Alert.alert("Something went wrong. Please try again later")

@@ -13,7 +13,12 @@ const userSlice = createSlice({
         userTokenInfo: {
             token: null,
             isLoading: true
-        }
+        },
+        userfollowersList: [],
+        userFollowingList: [],
+        updateFollowAndFollowingList: true,
+        updateTweetsList: true
+
 
 
 
@@ -21,15 +26,28 @@ const userSlice = createSlice({
     },
     reducers: {
         aduserInfo: (state, action) => {
-            console.log("action", action)
             state.userInfo = action.payload
 
         },
         AddToken: (state, action) => {
             state.userTokenInfo = action.payload
-        }
+        },
+        UpdateFollowerInfo: (state, action) => {
+            state.userfollowersList = action.payload
+
+        },
+        UpdateFollowingInfo: (state, action) => {
+            state.userFollowingList = action.payload
+        },
+        updateFollowFollowingList: (state, action) => {
+            state.updateFollowAndFollowingList = (!state.updateFollowAndFollowingList)
+        },
+
+        updateTweetsList: (state, action) => {
+            state.updateTweetsList = (!state.updateTweetsList)
+        },
     }
 })
 
-export const { aduserInfo, AddToken } = userSlice.actions
+export const { aduserInfo, AddToken, UpdateFollowerInfo, UpdateFollowingInfo, updateFollowFollowingList, updateTweetsList } = userSlice.actions
 export const userReducer = userSlice.reducer;

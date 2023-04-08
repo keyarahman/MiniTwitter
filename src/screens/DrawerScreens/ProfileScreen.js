@@ -1,27 +1,62 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View, Text, Image, StyleSheet, SafeAreaView, Pressable } from 'react-native';
+import { FlatList, View, Text, Image, StyleSheet, SafeAreaView, Pressable, ActivityIndicator } from 'react-native';
 import Icon from "react-native-vector-icons/Octicons"
 import TweetCard from '../../components/TweetCard';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { UpdateFollowAndFollowingInfo, UpdateFollowerInfo, UpdateFollowingInfo } from '../../redux/AuthSlice';
 
 const ProfileScreen = ({ navigation }) => {
+    const isTweetListUpdate = useSelector(state => state.user.updateTweetsList)
     const { token } = useSelector(state => state.user.userTokenInfo);
+    const { email } = useSelector(state => state.user.userInfo)
     const [tweetList, setTweetList] = useState([])
+    const [followingList, setFollowingList] = useState([])
+    const [followersList, setFollowerList] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const updateFollowAndFollowingListStatus = useSelector(state => state.user.updateFollowAndFollowingList)
+    const dispatch = useDispatch()
+    const getFollwingList = async () => {
 
+        try {
+            const { data } = await axios.get('https://missingdata.pythonanywhere.com/following', {
+                headers: {
+                    'X-Jwt-Token': `Bearer ${token}`
+                }
+            });
+            console.log("res", data.followings)
+            if (data) {
+                setFollowingList(data?.followings)
+                dispatch(UpdateFollowingInfo(data?.followings))
+            }
 
-    React.useEffect(() => {
+        } catch (e) {
+            console.log(e)
 
-        navigation.setOptions({
+        }
+    }
+    const getFollowerList = async () => {
 
-            headerLeft: () =>
-                <TouchableOpacity onPress={() => navigation.openDrawer()} style={{ marginLeft: 15, width: 30 }}>
-                    <Icon name="arrow-left" size={25} color={"white"} />
-                </TouchableOpacity>,
+        try {
+            const { data } = await axios.get('https://missingdata.pythonanywhere.com/followers', {
+                headers: {
+                    'X-Jwt-Token': `Bearer ${token}`
+                }
+            });
+            console.log("res", data.followers)
+            if (data) {
+                setFollowerList(data?.followers)
+                dispatch(UpdateFollowerInfo(data?.followers))
 
-        })
-    }, [navigation])
+            }
+
+        } catch (e) {
+            console.log(e)
+
+        }
+    }
+
     const getMyTweets = async () => {
         try {
             const { data } = await axios.get('https://missingdata.pythonanywhere.com/my-tweets', {
@@ -36,46 +71,72 @@ const ProfileScreen = ({ navigation }) => {
         } catch (e) {
             console.log(e)
         }
-    }
 
+        setIsLoading(false)
+    }
     useEffect(() => {
         getMyTweets()
-    }, [])
 
+    }, [isTweetListUpdate])
+
+    useEffect(() => {
+        getFollwingList()
+        getFollowerList()
+    }, [updateFollowAndFollowingListStatus])
+
+    React.useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () =>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 15, width: 30 }}>
+                    <Icon name="arrow-left" size={25} color={"white"} />
+                </TouchableOpacity>,
+            headerTitle: () => <Text numberOfLines={1} style={{ color: "white", fontSize: 20, maxWidth: 100 }}>Profile</Text>,
+
+
+        })
+    }, [navigation])
     return (
         <SafeAreaView style={styles.container}>
-            <FlatList
-                data={tweetList}
-                renderItem={({ item }) =>
-                    < TweetCard username={item.user.username} email={item.user.email} tweet={item.content} />
-                }
-                keyExtractor={(item) => item.id}
-                ListFooterComponent={() => <View style={{ marginBottom: 60 }} />}
-                ListHeaderComponent={() => (
-                    <View style={styles.header}>
-                        <View style={styles.profile}>
-                            <Image
-                                source={{ uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }}
-                                style={styles.profileImage}
-                            />
-                            <View style={styles.profileInfo}>
-                                <Text style={styles.profileName}>John Doe</Text>
-                                <Text style={styles.profileUsername}>@johndoe</Text>
+            {isLoading ?
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    <ActivityIndicator color={"white"} />
+                </View> :
+                <FlatList
+                    data={tweetList}
+                    renderItem={({ item }) =>
+                        < TweetCard username={item.user.username} email={item.user.email} tweet={item.content} />
+                    }
+                    keyExtractor={(item) => item.id}
+                    ListFooterComponent={() => <View style={{ marginBottom: 60 }} />}
+                    ListHeaderComponent={() => (
+                        <View style={styles.header}>
+                            <View style={styles.profile}>
+                                <Image
+                                    source={{ uri: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' }}
+                                    style={styles.profileImage}
+                                />
+                                <View style={styles.profileInfo}>
+                                    <Text style={styles.profileName}></Text>
+                                    <Text style={styles.profileUsername}>{email}</Text>
+                                </View>
+                            </View>
+                            <View style={styles.stats} >
+                                <TouchableOpacity onPress={() => navigation.navigate("followAndUnfollow", {
+                                    screen: "Following"
+                                })} style={styles.stat}>
+                                    <Text style={styles.statNumber}>{followingList.length}</Text>
+                                    <Text style={styles.statLabel}>Following</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => navigation.navigate("followAndUnfollow", {
+                                    screen: "Followers"
+                                })} style={styles.stat}>
+                                    <Text style={styles.statNumber}>{followersList.length}</Text>
+                                    <Text style={styles.statLabel}>Followers</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
-                        <Pressable style={styles.stats} onPress={() => navigation.navigate("followUnfollow")}>
-                            <View style={styles.stat}>
-                                <Text style={styles.statNumber}>123</Text>
-                                <Text style={styles.statLabel}>Following</Text>
-                            </View>
-                            <View style={styles.stat}>
-                                <Text style={styles.statNumber}>456</Text>
-                                <Text style={styles.statLabel}>Followers</Text>
-                            </View>
-                        </Pressable>
-                    </View>
-                )}
-            />
+                    )}
+                />}
         </SafeAreaView>
     );
 };

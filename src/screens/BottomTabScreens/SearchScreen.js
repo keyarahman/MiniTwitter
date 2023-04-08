@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Image, StyleSheet, Text, View, FlatList, TouchableOpacity, SafeAreaView, Pressable } from 'react-native';
 import { SearchBar, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import FollowCard from '../../components/FollowCard';
 
-const SearchScreen = () => {
+const SearchScreen = ({ navigation }) => {
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState([]);
   const { token } = useSelector(state => state.user.userTokenInfo);
@@ -36,8 +36,9 @@ const SearchScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 20 }}>
-        <Image source={{ uri: "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png" }} style={{ height: 50, width: 50, borderRadius: 25, margin: 5 }} />
+      <Pressable style={{ flexDirection: "row", justifyContent: "space-between", marginBottom: 20 }} onPress={() => navigation.openDrawer()}>
+        <Image
+          source={{ uri: "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png" }} style={{ height: 45, width: 45, borderRadius: 22, margin: 5 }} />
         <SearchBar
           placeholder='Search Twitter'
           onChangeText={handleSearch}
@@ -48,7 +49,7 @@ const SearchScreen = () => {
           placeholderTextColor='#6E767D'
         />
         <View></View>
-      </View>
+      </Pressable>
       <FlatList
         data={filteredData}
         renderItem={({ item }) => <FollowCard id={item.id} username={item.username} email={item.email} />}

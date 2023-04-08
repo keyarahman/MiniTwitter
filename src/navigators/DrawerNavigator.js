@@ -4,8 +4,10 @@ import { View } from 'react-native';
 const DrawerStack = createDrawerNavigator()
 import DrawerContent from '../components/DrawerContent';
 import ProfileScreen from '../screens/DrawerScreens/ProfileScreen';
-import FollowUnfolloScreen from '../screens/DrawerScreens/FollowUnfolloScreen';
+import FollowUnfolloTabScreen from '../screens/DrawerScreens/FollowUnfolloTabScreen';
 import AddUserScreen from '../screens/DrawerScreens/AddUserScreen';
+import FollowUnfolloScreen from '../screens/DrawerScreens/FollowUnfolloTabScreen';
+
 const DrawerNavigator = () => {
 
     return (
@@ -18,8 +20,8 @@ const DrawerNavigator = () => {
 
             }} />
             <DrawerStack.Screen name="Profile" component={ProfileScreen} />
-            <DrawerStack.Screen name="followUnfollow" component={FollowUnfolloScreen} />
-            <DrawerStack.Screen name="adduser" component={AddUserScreen} />
+
+
 
 
         </DrawerStack.Navigator>

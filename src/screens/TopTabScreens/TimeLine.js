@@ -8,7 +8,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const TimeLine = ({ navigation }) => {
     const [posts, setPosts] = useState([])
     const { token } = useSelector(state => state.user.userTokenInfo);
-
     const getTweets = async () => {
 
         try {

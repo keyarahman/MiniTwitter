@@ -4,11 +4,11 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert, Acti
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch } from 'react-redux';
-import { AddToken } from '../../redux/AuthSlice';
+import { AddToken, aduserInfo } from '../../redux/AuthSlice';
 const LoginScreen = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const [username, setUsername] = useState('');
+  const [email, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -16,20 +16,22 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     setError("")
     setIsLoading(true)
-    if (!username || !password) {
+    if (!email || !password) {
       setError("Please fill up  all the provided fields")
     } else {
-      console.log(username, password)
+      console.log(email, password)
       try {
         const { data } = await axios.post('https://missingdata.pythonanywhere.com/login', {
-          email: username,
+          email: email,
           password: password,
         }
         )
         console.log("data", data.token)
         if (data?.token) {
           Alert.alert("Successfully Login")
+          AsyncStorage.setItem("token", data?.token)
           dispatch(AddToken({ token: data?.token, isLoading: false }))
+          dispatch(aduserInfo({ email: email }))
 
         }
       }
@@ -53,7 +55,7 @@ const LoginScreen = () => {
           style={styles.input}
           placeholder="Phone, email, or username"
           placeholderTextColor="#AAB8C2"
-          value={username}
+          value={email}
           onChangeText={text => {
             setError("")
             setUsername(text)
