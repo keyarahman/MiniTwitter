@@ -13,7 +13,7 @@ git clone https://github.com/keyarahman/MiniTwitter
 
 Navigate to the project directory:
 ```
-cd mini-twitter-app
+cd MiniTwitter
 ```
 
 Install the dependencies:
