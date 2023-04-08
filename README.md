@@ -37,5 +37,5 @@ To run the unit tests for the app, run:
 ```
 npm test
  ```
-Contributing:
+## Contributing:
 If you'd like to contribute to the project, please fork the repository and create a new branch for your feature or bug fix. Then, submit a pull request with your changes. Be sure to include unit tests for any new functionality you add
